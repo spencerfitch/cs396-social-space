@@ -56,8 +56,6 @@ class Room {
 		this.objects = {}
 		this.events = {}
 
-		initializeRoom(this)
-
 	}
 
 	sim() {
@@ -220,6 +218,9 @@ class Room {
 		// grammar.addModifiers(baseEngModifiers)
 
 		let fakeBodies = []
+		
+		const fakeBodyCount = 1
+		const fakeBodySteps = 1000
 
 		let count = 0
 

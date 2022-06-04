@@ -4,7 +4,7 @@
  * Hopefully, we heard about that as part of an event? or part of a value change?
  */
 
-
+const trackedKeys = ["size", "color", "fireStrength", "rotation", "position", "paritype", "displayName", "label", "labelWidth"]
 
 Vue.component("live-object", {
 	template: `<a-entity>
