@@ -178,6 +178,7 @@ Vue.component("obj-world", {
 		// Create a fire object
 		// Attach this liveobject to the ROOM
 		// and then the room deals with drawing it to AFRAME
+		/*
 		let fire = new LiveObject(this.room, {
 			paritype: "fire",  // Tells it which type to use
 			uid: "fire0",
@@ -191,8 +192,9 @@ Vue.component("obj-world", {
 
 		fire.position.set(0, 0, 0)
 		fire.fireStrength = 1
+		*/
 
-		let bird = new LiveObject(this.room, {
+		const bird = new LiveObject(this.room, {
 			paritype: 'bird',
 			uid: 'bird0',
 			isTracked: true,
@@ -204,6 +206,17 @@ Vue.component("obj-world", {
 				this.rotation.set(0, -theta, 0);
 			},
 		});
+
+		const cheeseplate = new LiveObject(this.room, {
+			paritype: 'cheeseplate',
+			uid: 'cheeseplate0',
+			isTracked: true,
+			heightMin: 0.4,
+			height: 0.4,
+			heightSpeed: 0,
+			heightAccel: 2,
+		});
+		cheeseplate.position.set(0, 0, 0);
 	},
 
 	props: ["room"]
