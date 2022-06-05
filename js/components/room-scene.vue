@@ -32,20 +32,23 @@ AFRAME.registerComponent('rotation-reader', {
 });
 
 Vue.component("room-scene", {
-	template: `<a-scene>
+	template: `
+	<a-scene>
 
-		
-		<!--------- ASSETS ---------->
+		<!-- Assets -->
 		<a-assets>
-			<img id="sky" src="img/textures/sky-night.png">
+			<img id="sunset-sky" src="textures/sunset-sky.jpg">
+			<img id="mountain-albedo" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_albedo.png">
+			<img id="mountain-ao" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_ao.png">
+			<img id="mountain-height" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_height.png">
+			<img id="mountain-normal">
 		</a-assets>
 
-		<!--------- CAMERA --------->
-
+		<!-- Camera Viewport -->
 		<a-camera id="camera" rotation-reader>
 			<a-cursor></a-cursor>
 
-			<!-------- Output text ----->
+			<!-- Output text -->
 			<a-entity>
 				<a-text 
 					v-if="room.userHead"
@@ -70,12 +73,10 @@ Vue.component("room-scene", {
 			</a-entity>
 			
 		</a-camera>
-		
+
+		<!-- World Terrain -->
 		<obj-world :room="room"/>
 
-
-		
-				
 		<a-entity position="0 0 0">
 			<a-entity text="value:hello;font:/fonts/helvetica-sdf.fnt; fontImage:/fonts/helvetica-sdf.png;width:10;color:black" position="0 1 0"></a-entity>
 			

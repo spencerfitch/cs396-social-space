@@ -3,46 +3,108 @@ Vue.component("obj-world", {
 
 	template: `
 	<a-entity>
-		<!--------- SKYBOX --------->
-		<a-sky color="lightblue"></a-sky>
+		<!-- Skybox -->
+		<a-sky src="textures/sunset-sky.jpg" phi-start="90"></a-sky>
 
+		<!---- Sunlight ----> 
+		<a-entity
+			position="-80 240 -400"
+			geometry="primitive: sphere; radius: 40;"
+			material="color: #FD6E63"
+			light="type: directional; color: #FD5E53; castShadow: true;"></a-entity>
+		<!-- Base ambient light-->
+		<a-entity light="type: ambient; color: #ccc"></a-entity>
+
+		<!-- Ground -->
 		<a-plane 
 			roughness="1"
 			shadow 
-			color="hsl(140,40%,40%)"
-			height="100" 
-			width="100" 
+			color="hsl(172,62%,29%)"
+			height="400" 
+			width="400" 
 			rotation="-90 0 0">
 		</a-plane>
 
-		<!---- lights ----> 
-		<a-entity light="type: ambient; intensity: 0.4;" color="white"></a-entity>
-		<a-light type="directional" 
-			position="0 0 0" 
-			rotation="-90 0 0" 
-			intensity="0.4"
-			castShadow target="#directionaltarget">
-			<a-entity id="directionaltarget" position="-10 0 -20"></a-entity>
-		</a-light>
+		<!-- Mountains -->
+		<a-entity position="0 0 -240" scale="80 120 40">
+			<a-entity
+				position="0 .6 0"
+				geometry="primitive: cone; radiusBottom: 1.75; radiusTop: 0.1; height: 1.5;"
+				material="
+					src: #mountain-albedo;
+					ambientOcclusionMap: #mountain-ao;
+					normalMap: #mountain-normal;
+					displacementMap: #mountain-height;
+					displacementBias: -0.3;
+					displacementIntensity: 0.5;
+					roughness: 0.9;"></a-entity>
+			<a-entity
+				position="1 .3 0"
+				rotation="0 -90 0"
+				geometry="primitive: cone; radiusBottom: 2; radiusTop: 0.1;"
+				material="
+					src: #mountain-albedo;
+					ambientOcclusionMap: #mountain-ao;
+					normalMap: #mountain-normal;
+					displacementMap: #mountain-height;
+					displacementBias: -0.3;
+					displacementIntensity: 0.5;
+					roughness: 0.9;"></a-entity>
+			<a-entity
+				position="-2 .3 0"
+				rotation="0 -90 0"
+				geometry="primitive: cone; radiusBottom: 2; radiusTop: 0.1;"
+				material="
+					src: #mountain-albedo;
+					ambientOcclusionMap: #mountain-ao;
+					normalMap: #mountain-normal;
+					displacementMap: #mountain-height;
+					displacementBias: -0.3;
+					displacementIntensity: 0.5;
+					roughness: 0.9;"></a-entity>
+			<a-entity
+				position="-1 .175 1"
+				rotation="0 -90 0"
+				geometry="primitive: cone; radiusBottom: 1; radiusTop: 0.1; height: .75"
+				material="
+					src: #mountain-albedo;
+					ambientOcclusionMap: #mountain-ao;
+					normalMap: #mountain-normal;
+					displacementMap: #mountain-height;
+					displacementBias: -0.3;
+					displacementIntensity: 0.5;
+					roughness: 0.9;"></a-entity>
+		</a-entity>
 
-		<a-cone 
-			v-for="(tree,index) in trees"
-			:key="'tree' + index"
-			shadow 
+		<!-- Trees -->
+		<a-entity
+			v-for="(tree, index) in trees"
+			:position="tree.position.toAFrame()"
+			:scale="tree.size"
+		>
+			<!-- Leaves -->
+			<a-entity position="0 0.7 0">
+				<a-entity
+					position="0 0 0"
+					geometry="primitive: cone; radiusBottom: 0.7;"
+					material="color: #376628; roughness: .9;"></a-entity>
+				<a-entity
+					position="0 .35 0"
+					geometry="primitive: cone; radiusBottom: 0.6; height: 0.9;"
+					material="color: #376628; roughness: .9;"></a-entity>
+				<a-entity
+					position="0 .7 0"
+					geometry="primitive: cone; radiusBottom: 0.45; height: 0.7;"
+					material="color: #376628; roughness: .9;"></a-entity>
+			</a-entity>
 
-			:color="tree.color.toHex()"
-			:base-radius="tree.size.z" 
-			:height="tree.size.y" 
-
-			segments-radial=10
-			segments-height=1
-			
-			:rotation="tree.rotation.toAFrame()"
-			:position="tree.position.toAFrame()">
-		</a-cone>
-
+			<!-- Trunk -->
+			<a-entity
+				position="0 0.5 0"
+				geometry="primitive: cylinder; radius: 0.12;"
+				material="color: #6F432A"></a-entity>
+		</a-entity>
 		
-
 		<a-box 
 			v-for="(rock,index) in rocks"
 			:key="'rock' + index"
@@ -72,39 +134,40 @@ Vue.component("obj-world", {
 		// Interpret them as whatever A-Frame geometry you want!
 		// Cones, spheres, entities with multiple ...things?
 		// If you only use "noise" and not "random", 
-		// everyone will have the same view. (Wordle-style!)
-		let trees = []
-		let count = 30
-		for (var i = 0; i < count; i++) {
-			let h = 6 + 4*noise(i) // Size from 1 to 3
-			let tree = new LiveObject(undefined, { 
-				size: new THREE.Vector3(.3, h, .3),
-				color: new Vector(noise(i*50)*30 + 160, 100, 40 + 10*noise(i*10))
-			})
-			let r = 20 + 10*noise(i*40)
-			let theta = 2*noise(i*10)
-			tree.position.setToCylindrical(r, theta, h/2)
-			tree.lookAt(0,1,0)
-			trees.push(tree)
-		}
+		// everyone will have the same view. (Wordle-style!)s
+		
+		const trees = [...Array(70).keys()].map(i => {
+			let w = 2 + noise(i);
+			let h = 2.5 + noise(i);
+			let tree = new LiveObject(
+				undefined,
+				{
+					size: new THREE.Vector3(w, h, w),
+				},
+			);
 
-		let rocks = []
-		let rockCount = 20
-		for (var i = 0; i < rockCount; i++) {
-			let h = 1.2 + noise(i*100) // Size from 1 to 3
-			let rock = new LiveObject(undefined, { 
+			let r = 10 + 5*noise(i*10);
+			let theta = 1.5*Math.PI*noise(i*800) + Math.PI/2;
+
+			tree.position.setToCylindrical(r, theta, 0);
+			tree.lookAt(0,1,0);
+			return tree;
+		});
+
+		const rocks = [...Array(20).keys()].map(i => {
+			const h = 0.75 + 0.75*noise(i*100) // Size from 1 to 3
+			const rock = new LiveObject(undefined, { 
 				size: new THREE.Vector3(h, h, h),
 				color: new Vector(noise(i)*30 + 140, 0, 40 + 20*noise(i*3))
 			})
-			let r = 4 + 1*noise(i*1)
+			const r = 4 + 1*noise(i*1)
 			// Put them on the other side
-			let theta = 2*noise(i*10) + 3
+			const theta = Math.PI/2*noise(i*10) + Math.PI/2
 			rock.position.setToCylindrical(r, theta, h*.3)
 			// Look randomly
-			rock.lookAt(Math.random()*100,Math.random()*100,Math.random()*100)
-			rocks.push(rock)
-		}
-
+			rock.lookAt(Math.random()*100,Math.random()*100,Math.random()*100);
+			return rock;
+		});
 
 		return {
 			trees: trees,

@@ -20,6 +20,7 @@ const params = Object.fromEntries(urlSearchParams.entries());
 let paused = false
 
 let room = new Room()
+room.setID('mountain')
 
 // Pause on space
 document.onkeyup = function(e) {
