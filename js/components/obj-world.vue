@@ -77,8 +77,8 @@ Vue.component("obj-world", {
 		</a-entity>
 
 		<!-- Trees -->
-		<a-entity
-			v-for="(tree, index) in trees"
+		<a-entity v-for="(tree, index) in trees"
+			:key="'tree' + index"
 			:position="tree.position.toAFrame()"
 			:scale="tree.size"
 		>
@@ -105,8 +105,7 @@ Vue.component("obj-world", {
 				material="color: #6F432A"></a-entity>
 		</a-entity>
 		
-		<a-box 
-			v-for="(rock,index) in rocks"
+		<a-box v-for="(rock,index) in rocks"
 			:key="'rock' + index"
 			shadow 
 

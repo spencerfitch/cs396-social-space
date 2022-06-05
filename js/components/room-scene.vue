@@ -40,9 +40,9 @@ Vue.component("room-scene", {
 		<!-- Assets -->
 		<a-assets>
 			<img id="sunset-sky" src="textures/sunset-sky.jpg">
-			<img id="mountain-albedo" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_albedo.png">
-			<img id="mountain-ao" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_ao.png">
-			<img id="mountain-height" src="textures/Mountain/TexturesCom_Rock_CliffMountain3_1K_height.png">
+			<img id="mountain-albedo" src="textures/mountain/TexturesCom_Rock_CliffMountain3_1K_albedo.png">
+			<img id="mountain-ao" src="textures/mountain/TexturesCom_Rock_CliffMountain3_1K_ao.png">
+			<img id="mountain-height" src="textures/mountain/TexturesCom_Rock_CliffMountain3_1K_height.png">
 			<img id="mountain-normal">
 		</a-assets>
 
