@@ -66,12 +66,6 @@ Vue.component("room-scene", {
 					:value="room.titleText" 
 					position="-.7 .6 -1">
 				</a-text>
-				<a-text 
-					width="1"
-					color="black"
-					:value="room.detailText" 
-					position="-.7 .5 -1">
-				</a-text>
 			</a-entity>
 			
 		</a-camera>
