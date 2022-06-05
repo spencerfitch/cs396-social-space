@@ -17,6 +17,8 @@ AFRAME.registerComponent('rotation-reader', {
 		worldCamera.object3D.position.set(r*Math.cos(theta), 1.5, r*Math.sin(theta))
 		worldCamera.object3D.lookAt(0,.5,0)
 		console.log("****Start pos", worldCamera.object3D.position.toArray())
+
+		room.detailText = '';
 	},
 	tick: (function () {
 		
@@ -93,7 +95,7 @@ Vue.component("room-scene", {
 		}
 	},
 	mounted() {
-		// Create 
+		// Create
 	},
 
 	data() {

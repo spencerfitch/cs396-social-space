@@ -189,52 +189,22 @@ Vue.component("obj-world", {
 				Vue.set(this.color.v, 0, hue)
 			}
 		})
-	
 
 		fire.position.set(0, 0, 0)
 		fire.fireStrength = 1
 
-		// let fire2 = new LiveObject(this.room, {
-		// 	paritype: "fire",  // Tells it which type to use
-		// 	uid: "fire2",
-		// 	onUpdate({t, dt, frameCount}) {
-		// 		let hue = (noise(t*.02)+1)*180
-		// 		Vue.set(this.color.v, 0, hue)
-				
-		// 		// console.log(this.color[0] )
-		// 	}
-		// })
-
-		// fire2.position.set(3, 0, -4)
-		// fire2.fireStrength = 7
-
-		
-		let grammar = new tracery.createGrammar(  {
-			songStyle : ", played as #song.a#, on #musicModifier# #instrument#",
-			instrument : ["ukulele", "vocals", "guitar", "clarinet", "piano", "harmonica", "sitar", "tabla", "harp", "dulcimer", "violin", "accordion", "concertina", "fiddle", "tamborine", "bagpipe", "harpsichord", "euphonium"],
-			musicModifier : ["heavy", "soft", "acoustic", "psychedelic", "light", "orchestral", "operatic", "distorted", "echoing", "melodic", "atonal", "arhythmic", "rhythmic", "electronic"],
-			musicGenre : ["metal", "electofunk", "jazz", "salsa", "klezmer", "zydeco", "blues", "mariachi", "flamenco", "pop", "rap", "soul", "gospel", "buegrass", "swing", "folk"],
-			musicPlays : ["echoes out", "reverberates", "rises", "plays"],
-			musicAdv : ["too quietly to hear", "into dissonance", "into a minor chord", "changing tempo", "to a major chord", "staccatto", "into harmony", "without warning", "briskly", "under the melody", "gently", "becoming #musicGenre#"],
-			song : ["melody", "dirge", "ballad", "poem", "beat poetry", "slam poetry", "spoken word performance", "hymn", "song", "tone poem", "symphony"],
-			musicAdj : ["yielding", "firm", "joyful", "catchy", "folksy", "harsh", "strong", "soaring", "rising", "falling", "fading", "frantic", "calm", "childlike", "rough", "sensual", "erotic", "frightened", "sorrowful", "gruff", "smooth"],
-        
-		}, {})
-		grammar.addModifiers(baseEngModifiers)
-
-		const campfireSongs = ["Lonely Goatherd", "On top of spaghetti", "Princess Pat", "BINGO", "Old Mac Donald", "Going on a Bear Hunt", "The Green Grass Grew All Around", "Home on the Range", "John Jacob Jingleheimer Schmitt", "The Wheels on the Bus", "If I had a Hammer"]
-		this.room.detailText = "Campfire time!"
-
-		this.room.time.onSecondChange((second) => {
-			// Change the song every minute (60 seconds)
-			let rate = 10 // How many seconds between changes
-			if (second%rate === 0) {
-				let tick = second/rate
-				let index = second % campfireSongs.length
-				let song = campfireSongs[index]
-				this.room.detailText =  song + grammar.flatten("#songStyle#")
-			}
-		})
+		let bird = new LiveObject(this.room, {
+			paritype: 'bird',
+			uid: 'bird0',
+			isTracked: true,
+			onUpdate({t, dt, frameCount}) {
+				const r = 10;
+				const theta = 0.1*t % 2*Math.PI;
+				const h = 10;
+				this.position.setToCylindrical(r, theta, h);
+				this.rotation.set(0, -theta, 0);
+			},
+		});
 	},
 
 	props: ["room"]
